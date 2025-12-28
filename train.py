@@ -12,7 +12,7 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v1"
+RUN_NAME = "bipedalwalker_potential_v2"
 SEED = 0
 
 TOTAL_TIMESTEPS = 500_000
@@ -35,7 +35,8 @@ def train():
     venv = VecMonitor(venv)
 
     # VecNormalize: normalize observations
-    venv = VecNormalize(venv, norm_obs=True, norm_reward=True, clip_obs=10.0)
+    # clip_reward to avoid large shaping rewards damaging learning
+    venv = VecNormalize(venv, norm_obs=True, norm_reward=True, clip_obs=10.0, clip_reward=10.0)
 
     # PPO model
     model = PPO(
@@ -71,7 +72,13 @@ def evaluate(n_eval_episodes: int = 10):
     norm_path = os.path.join(run_dir, "vecnormalize.pkl")
 
     # Evaluation env
-    eval_env = DummyVecEnv([lambda: Monitor(gym.make(ENV_ID))]) # python will discard the env if not assigned
+    def make_eval_env():
+        env = Monitor(gym.make(ENV_ID))
+        env.reset(seed=SEED)
+        return env
+
+    eval_env = DummyVecEnv([make_eval_env]) # python will discard the env if not assigned
+    eval_env.seed(SEED)
     eval_env = VecNormalize.load(norm_path, eval_env)
 
     # IMPORTANT!!! evaluation mode <-- set to False
@@ -91,5 +98,7 @@ def evaluate(n_eval_episodes: int = 10):
     eval_env.close()
 
 if __name__ == "__main__":
-    #train()
+    model_path = os.path.join("runs", RUN_NAME, "model.zip")
+    if not os.path.exists(model_path):
+        train()
     evaluate(n_eval_episodes=20)
