@@ -17,8 +17,8 @@ class PotentialShaping(gym.Wrapper):
         x_vel = float(obs[2])
         return (1.0 * x_vel) - (0.5 * abs(hull_angle))
 
-    def reset(self, **kwargs):
-        obs, info = self.env.reset(**kwargs)
+    def reset(self, **extra_stuff):
+        obs, info = self.env.reset(**extra_stuff)
         self._prev_phi = self.phi(obs)
         return obs, info
 

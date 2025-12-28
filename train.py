@@ -12,7 +12,7 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v2"
+RUN_NAME = "bipedalwalker_potential_v3"
 SEED = 0
 
 TOTAL_TIMESTEPS = 500_000
@@ -74,7 +74,7 @@ def evaluate(n_eval_episodes: int = 10):
     # Evaluation env
     def make_eval_env():
         env = Monitor(gym.make(ENV_ID))
-        env.reset(seed=SEED)
+        #env.reset(seed=SEED)
         return env
 
     eval_env = DummyVecEnv([make_eval_env]) # python will discard the env if not assigned
