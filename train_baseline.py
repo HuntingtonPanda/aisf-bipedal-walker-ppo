@@ -1,5 +1,5 @@
 import gymnasium as gym
-import torch as th
+import torch as th #why do i need this again???
 import os
 
 from stable_baselines3 import PPO
@@ -7,9 +7,11 @@ from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecMonitor, VecNormalize, DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 
+from potential import PotentialShaping
+
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_baseline_V1"
+RUN_NAME = "bipedalwalker_potential_v1"
 SEED = 0
 
 TOTAL_TIMESTEPS = 500_000
@@ -21,7 +23,14 @@ def train():
     os.makedirs(run_dir, exist_ok=True)
     
     # VecEnv: run multiple envs in parallel
-    venv = make_vec_env(ENV_ID, n_envs=4, seed=0)
+    venv = make_vec_env(ENV_ID, n_envs=4, seed=0, wrapper_class=lambda env: PotentialShaping(env, gamma=0.99, alpha=0.2))
+    """
+    idk man
+    def make_env():
+        env = gym.make(ENV_ID)
+        env = PotentialShaping(env, gamma=0.99, alpha=0.2)
+        return env
+    """
     venv = VecMonitor(venv)
 
     # VecNormalize: normalize observations
@@ -60,11 +69,11 @@ def evaluate(n_eval_episodes: int = 10):
     model_path = os.path.join(run_dir, "model.zip")
     norm_path = os.path.join(run_dir, "vecnormalize.pkl")
 
-    # Evaluation env (single env is fine)
+    # Evaluation env
     eval_env = DummyVecEnv([lambda: gym.make(ENV_ID)])
     eval_env = VecNormalize.load(norm_path, eval_env)
 
-    # IMPORTANT: evaluation mode
+    # IMPORTANT!!! evaluation mode <-- set to False
     eval_env.training = False
     eval_env.norm_reward = False
 
@@ -77,7 +86,7 @@ def evaluate(n_eval_episodes: int = 10):
         deterministic=True,
     )
 
-    print(f"📊 Eval over {n_eval_episodes} episodes: mean={mean_reward:.2f} ± {std_reward:.2f}")
+    print(f"Evaluation over {n_eval_episodes} episodes: mean={mean_reward:.2f} +- {std_reward:.2f}")
     eval_env.close()
 
 if __name__ == "__main__":

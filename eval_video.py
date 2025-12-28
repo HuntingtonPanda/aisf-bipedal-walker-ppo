@@ -4,7 +4,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize, VecVideoRecorder
 
 ENV_ID = "BipedalWalker-v3"
-RUN_NAME = "bipedalwalker_baseline_V1"
+RUN_NAME = "bipedalwalker_potential_v1"
 
 def main():
     run_dir = os.path.join("runs", RUN_NAME)

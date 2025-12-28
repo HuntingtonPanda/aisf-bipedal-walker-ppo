@@ -1,7 +1,7 @@
 commands to run:
 source .venv/bin/activate
 
-
+pkill -f tensorboard || true
 tensorboard --logdir runs/tb
 
 
@@ -11,4 +11,20 @@ Reference
   author={Towers, Mark and Kwiatkowski, Ariel and Terry, Jordan and Balis, John U and De Cola, Gianluca and Deleu, Tristan and Goul{\~a}o, Manuel and Kallinteris, Andreas and Krimmel, Markus and KG, Arjun and others},
   journal={arXiv preprint arXiv:2407.17032},
   year={2024}
+}
+
+https://stable-baselines3.readthedocs.io/en/master/guide/vec_envs.html
+
+Potential based rewards (Improve: learning speed)(same optimal solution but avoids local minima)
+@inproceedings{10.5555/645528.657613,
+author = {Ng, Andrew Y. and Harada, Daishi and Russell, Stuart J.},
+title = {Policy Invariance Under Reward Transformations: Theory and Application to Reward Shaping},
+year = {1999},
+isbn = {1558606122},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+booktitle = {Proceedings of the Sixteenth International Conference on Machine Learning},
+pages = {278–287},
+numpages = {10},
+series = {ICML '99}
 }
