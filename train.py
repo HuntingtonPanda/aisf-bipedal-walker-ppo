@@ -6,6 +6,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecMonitor, VecNormalize, DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.monitor import Monitor
 
 from potential import PotentialShaping
 
@@ -70,14 +71,14 @@ def evaluate(n_eval_episodes: int = 10):
     norm_path = os.path.join(run_dir, "vecnormalize.pkl")
 
     # Evaluation env
-    eval_env = DummyVecEnv([lambda: gym.make(ENV_ID)])
+    eval_env = DummyVecEnv([lambda: Monitor(gym.make(ENV_ID))]) # python will discard the env if not assigned
     eval_env = VecNormalize.load(norm_path, eval_env)
 
     # IMPORTANT!!! evaluation mode <-- set to False
     eval_env.training = False
     eval_env.norm_reward = False
 
-    model = PPO.load(model_path, env=eval_env)
+    model = PPO.load(model_path, env=eval_env, device="cpu")
 
     mean_reward, std_reward = evaluate_policy(
         model,
@@ -86,9 +87,9 @@ def evaluate(n_eval_episodes: int = 10):
         deterministic=True,
     )
 
-    print(f"Evaluation over {n_eval_episodes} episodes: mean={mean_reward:.2f} +- {std_reward:.2f}")
+    print(f"Evaluation of {RUN_NAME} over {n_eval_episodes} episodes: mean={mean_reward:.2f} +- {std_reward:.2f}")
     eval_env.close()
 
 if __name__ == "__main__":
-    train()
-    evaluate()
+    #train()
+    evaluate(n_eval_episodes=20)

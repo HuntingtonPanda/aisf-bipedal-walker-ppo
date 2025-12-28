@@ -5,6 +5,14 @@ pkill -f tensorboard || true
 tensorboard --logdir runs/tb
 
 
+**Results**
+Baseline (bipedalwalker_baseline_V1):
+Evaluation over 10 episodes: mean=202.46 +- 146.54
+Evaluation over 20 episodes: mean=284.15 +- 55.43
+Potential (bipedalwalker_potential_v):
+Evaluation over 10 episodes: mean=296.78 +- 2.69
+Evaluation over 20 episodes: mean=273.63 +- 66.27
+
 Reference
 @article{towers2024gymnasium,
   title={Gymnasium: A Standard Interface for Reinforcement Learning Environments},
