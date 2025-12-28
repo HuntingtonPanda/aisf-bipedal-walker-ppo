@@ -12,7 +12,7 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v3"
+RUN_NAME = "bipedalwalker_potential_v4"
 SEED = 0
 
 TOTAL_TIMESTEPS = 500_000
@@ -36,7 +36,7 @@ def train():
 
     # VecNormalize: normalize observations
     # clip_reward to avoid large shaping rewards damaging learning
-    venv = VecNormalize(venv, norm_obs=True, norm_reward=True, clip_obs=10.0, clip_reward=10.0)
+    venv = VecNormalize(venv, norm_obs=False, norm_reward=False, clip_obs=10.0)
 
     # PPO model
     model = PPO(
