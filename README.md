@@ -22,6 +22,7 @@ Evaluation of bipedalwalker_potential_v3 over 20 episodes: mean=284.11 +- 34.98
 Evaluation of bipedalwalker_potential_v4 over 20 episodes: mean=243.71 +- 102.39
 Evaluation of bipedalwalker_potential_v5 over 20 episodes: mean=249.73 +- 100.60
 Evaluation of bipedalwalker_potential_v6 over 20 episodes: mean=44.76 +- 136.18
+Evaluation of bipedalwalker_potential_v7 over 20 episodes: mean=264.66 +- 91.59
 **NOTES:**
 - Potential-based reward shaping led to faster early learning and more stable training dynamics, as evidenced by earlier increases in episode reward and length shown by the tensorboard graphs
 - The baseline exhibited late-stage performance collapse, whereas the potential model maintained stable episode lengths

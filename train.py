@@ -12,10 +12,10 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v6"
+RUN_NAME = "bipedalwalker_potential_v9"
 SEED = 0
 
-TOTAL_TIMESTEPS = 500_000
+TOTAL_TIMESTEPS = 1_000_000
 N_ENVS = 4
 
 def train():
@@ -36,7 +36,7 @@ def train():
 
     # VecNormalize: normalize observations
     # clip_reward to avoid large shaping rewards damaging learning
-    venv = VecNormalize(venv, norm_obs=True, norm_reward=False, clip_obs=10.0, clip_reward=10.0)
+    venv = VecNormalize(venv, norm_obs=True, norm_reward=True, clip_obs=10.0, clip_reward=10.0)
 
     # PPO model
     model = PPO(
@@ -49,6 +49,8 @@ def train():
         gamma=0.99,
         gae_lambda=0.95,
         clip_range=0.2,
+        #clip_range_vf=0.2,
+        #vf_coef=0.5,
         verbose=1,
         device="cpu",
         tensorboard_log=os.path.join("runs", "tb"),
