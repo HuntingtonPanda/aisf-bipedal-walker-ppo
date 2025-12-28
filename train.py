@@ -1,5 +1,5 @@
 import gymnasium as gym
-import torch as th #why do i need this again???
+#import torch as th #why do i need this again???
 import os
 
 from stable_baselines3 import PPO
@@ -12,7 +12,7 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v4"
+RUN_NAME = "bipedalwalker_potential_v6"
 SEED = 0
 
 TOTAL_TIMESTEPS = 500_000
@@ -24,7 +24,7 @@ def train():
     os.makedirs(run_dir, exist_ok=True)
     
     # VecEnv: run multiple envs in parallel
-    venv = make_vec_env(ENV_ID, n_envs=4, seed=0, wrapper_class=lambda env: PotentialShaping(env, gamma=0.99, alpha=0.2))
+    venv = make_vec_env(ENV_ID, n_envs=N_ENVS, seed=SEED, wrapper_class=lambda env: PotentialShaping(env, gamma=0.99, alpha=0.2))
     """
     idk man
     def make_env():
@@ -36,7 +36,7 @@ def train():
 
     # VecNormalize: normalize observations
     # clip_reward to avoid large shaping rewards damaging learning
-    venv = VecNormalize(venv, norm_obs=False, norm_reward=False, clip_obs=10.0)
+    venv = VecNormalize(venv, norm_obs=True, norm_reward=False, clip_obs=10.0, clip_reward=10.0)
 
     # PPO model
     model = PPO(
