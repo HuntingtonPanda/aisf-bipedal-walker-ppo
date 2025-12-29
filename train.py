@@ -12,7 +12,7 @@ from potential import PotentialShaping
 
 ENV_ID = "BipedalWalker-v3"
 
-RUN_NAME = "bipedalwalker_potential_v9"
+RUN_NAME = "bipedalwalker_baseline_V1"
 SEED = 0
 
 TOTAL_TIMESTEPS = 1_000_000

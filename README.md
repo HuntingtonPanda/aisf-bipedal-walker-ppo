@@ -8,7 +8,7 @@ tensorboard --logdir runs/tb
 **Results**
 bipedalwalker_baseline_V1:
 Evaluation over 10 episodes: mean=202.46 +- 146.54
-Evaluation over 20 episodes: mean=284.15 +- 55.43
+Evaluation of bipedalwalker_baseline_V1 over 20 episodes: mean=228.48 +- 109.78
 
 bipedalwalker_potential_v1:
 Evaluation over 10 episodes: mean=296.78 +- 2.69
